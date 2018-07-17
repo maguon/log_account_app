@@ -1,0 +1,3 @@
+rootProject.name = 'log_account_app'
+
+include ':app'

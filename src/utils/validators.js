@@ -1,0 +1,1 @@
+export const stringLength = (msg, length) => value => value && value.length < length ? msg : undefined

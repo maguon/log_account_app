@@ -1,0 +1,4 @@
+export const get_handoverStatistics_success = 'get_handoverStatistics_success'
+export const get_handoverStatistics_failed = 'get_handoverStatistics_failed'
+export const get_handoverStatistics_error = 'get_handoverStatistics_error'
+export const get_handoverStatistics_waiting = 'get_handoverStatistics_waiting'

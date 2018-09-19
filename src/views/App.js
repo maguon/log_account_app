@@ -7,6 +7,7 @@ import { connect } from 'react-redux'
 //<<<<<<<<<<components
 import NavBar from '../components/bar/NavBar'
 import OptionalSearchBar from '../components/bar/OptionalSearchBar'
+import CarOptionSearchBar from '../components/bar/CarOptionSearchBar'
 import LeftButton from '../components/leftButton/LeftButton'
 import TabBarIcon from '../components/bar/TabBarIcon'
 import HandOverListToolButton from '../components/toolButton/HandOverListToolButton'
@@ -20,17 +21,16 @@ import HandOverSearchToolButton from '../components/toolButton/HandOverSearchToo
 //<<<<<<<<<<views
 import InitView from '../views/initView/InitView'
 import Login from '../views/login/Login'
-
 import Home from '../views/block/home/Home'
 import Setting from '../views/block/Setting'
 
 //<<<<<<<<<<homeBlock
 import HandOverForHomeSearch from '../views/HandOverForHomeSearch'
-
 //<<<<<<<<<<homeBlock
 
 //<<<<<<<<<<settingBlock
-
+import PersonalCenter from '../views/personalCenter/PersonalCenter'
+import UpdatePassword from '../views/updatePassword/UpdatePassword'
 //<<<<<<<<<<settingBlock
 
 //<<<<<<<<<<handOverBlock
@@ -38,18 +38,17 @@ import HandOverList from '../views/block/handOverList/HandOverList'
 import HandOverInfo from '../views/handOverInfo/HandOverInfo'
 import CreateHandover from '../views/createHandover/CreateHandover'
 import HandOverSearch from '../views/HandOverSearch'
-
 //<<<<<<<<<<handOverBlock
 
 //<<<<<<<<<<notHandoverBlock
 import NotHandoverList from '../views/block/notHandoverList/NotHandoverList'
 import NotHandoverDetail from '../views/notHandoverDetail/NotHandoverDetail'
 import NotHandoverSearch from '../views/NotHandoverSearch'
-
 //<<<<<<<<<<notHandoverBlock
 
 //<<<<<<<<<<Option
 import CarOptionList from '../views/option/carOptionList/CarOptionList'
+import CarOptionInfo from '../views/option/CarOptionInfo'
 import CityOptionList from '../views/option/cityOptionList/CityOptionList'
 import DriverOptionList from '../views/option/driverOptionList/DriverOptionList'
 import EntrustOptionList from '../views/option/entrustOptionList/EntrustOptionList'
@@ -109,7 +108,6 @@ export default class App extends Component {
                 <Scene key="root">
                     <Scene key="initialization" initial={true} component={InitView} hideNavBar hideTabBar />
                     <Scene
-                        
                         key="mainRoot"
                         component={connect(mapStateToProps)(Switch)}
                         tabs={true}
@@ -136,9 +134,11 @@ export default class App extends Component {
                                 <Scene key="createHandoverAtHomeBlock" component={CreateHandover} LeftButton={LeftButton} title='添加交接单' hideNavBar={false} hideTabBar={true} navBar={NavBar} />
                                 <Scene key="handOverInfoAtHomeBlock" component={HandOverInfo} LeftButton={LeftButton} title='交接单详情' hideNavBar={false} hideTabBar={true} navBar={NavBar} />
                                 <Scene key="handOverSearchAtHomeBlock" component={HandOverForHomeSearch} LeftButton={LeftButton} RightButton={HandOverForHomeSearchToolButton} title='交接单查询' hideNavBar={false} hideTabBar={true} navBar={NavBar} />
-                                <Scene key="entrustOptionListAtHomeBlock" component={EntrustOptionList} LeftButton={LeftButton} title='委托方' hideNavBar={false} hideTabBar={true} navBar={OptionalSearchBar} />
-                                <Scene key="receiveOptionListAtHomeBlock" component={ReceiveOptionList} LeftButton={LeftButton} title='经销商' hideNavBar={false} hideTabBar={true} navBar={OptionalSearchBar} />
-                                <Scene key="cityOptionListAtHomeBlock" component={CityOptionList} LeftButton={LeftButton} title='城市' hideNavBar={false} hideTabBar={true} navBar={OptionalSearchBar} />
+                                <Scene key="entrustOptionListAtHomeBlock" component={EntrustOptionList} LeftButton={LeftButton} hideNavBar={false} hideTabBar={true} navBar={OptionalSearchBar} />
+                                <Scene key="receiveOptionListAtHomeBlock" component={ReceiveOptionList} LeftButton={LeftButton} hideNavBar={false} hideTabBar={true} navBar={OptionalSearchBar} />
+                                <Scene key="cityOptionListAtHomeBlock" component={CityOptionList} LeftButton={LeftButton} hideNavBar={false} hideTabBar={true} navBar={OptionalSearchBar} />
+                                <Scene key="carOptionListAtHomeBlock" component={CarOptionList} LeftButton={LeftButton} hideNavBar={false} hideTabBar={true} navBar={CarOptionSearchBar} />
+                                <Scene key="carOptionInfoAtHomeBlock" component={CarOptionInfo} LeftButton={LeftButton} hideNavBar={false} title='车辆详情' hideTabBar={true} navBar={NavBar} />
                             </Scene>
                             <Scene key="handOverBlock" icon={TabBarIcon} online='ios-paper' >
                                 <Scene key="handOverList" initial={true} component={HandOverList} title='交接单' hideNavBar={false} navBar={NavBar} RightButton={HandOverListToolButton} />
@@ -148,6 +148,8 @@ export default class App extends Component {
                                 <Scene key="entrustOptionListAtHandOverBlock" component={EntrustOptionList} LeftButton={LeftButton} title='委托方' hideNavBar={false} hideTabBar={true} navBar={OptionalSearchBar} />
                                 <Scene key="receiveOptionListAtHandOverBlock" component={ReceiveOptionList} LeftButton={LeftButton} title='经销商' hideNavBar={false} hideTabBar={true} navBar={OptionalSearchBar} />
                                 <Scene key="cityOptionListAtHandOverBlock" component={CityOptionList} LeftButton={LeftButton} title='城市' hideNavBar={false} hideTabBar={true} navBar={OptionalSearchBar} />
+                                <Scene key="carOptionListAtHandOverBlock" component={CarOptionList} LeftButton={LeftButton} hideNavBar={false} hideTabBar={true} navBar={CarOptionSearchBar} />
+                                <Scene key="carOptionInfoAtHandOverBlock" component={CarOptionInfo} LeftButton={LeftButton} title='车辆详情' hideNavBar={false} hideTabBar={true} navBar={NavBar} />
                             </Scene>
                             <Scene key="notHandoverBlock" icon={TabBarIcon} online='ios-car' >
                                 <Scene key="notHandoverList" initial={true} component={NotHandoverList} title='未交接车辆' hideNavBar={false} navBar={NavBar} RightButton={NotHandOverListToolButton} />
@@ -165,6 +167,8 @@ export default class App extends Component {
                                     title='设置'
                                     hideNavBar={false}
                                     navBar={NavBar} />
+                                <Scene key="personalCenter" component={PersonalCenter} LeftButton={LeftButton} title='个人中心' hideNavBar={false} hideTabBar={true} navBar={NavBar} />
+                                <Scene key="updatePassword" component={UpdatePassword} LeftButton={LeftButton} title='修改密码' hideNavBar={false} hideTabBar={true} navBar={NavBar} />
                             </Scene>
                         </Scene>
                     </Scene>

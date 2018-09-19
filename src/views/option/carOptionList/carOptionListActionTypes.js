@@ -1,0 +1,5 @@
+export const get_carOptionList_success = 'get_carOptionList_success'
+export const get_carOptionList_failed = 'get_carOptionList_failed'
+export const get_carOptionList_error = 'get_carOptionList_error'
+export const get_carOptionList_waiting = 'get_carOptionList_waiting'
+export const clean_carOptionList = 'clean_carOptionList'

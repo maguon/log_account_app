@@ -7,3 +7,7 @@ export const get_handOverListForHomeMore_success = 'get_handOverListForHomeMore_
 export const get_handOverListForHomeMore_failed = 'get_handOverListForHomeMore_failed'
 export const get_handOverListForHomeMore_error = 'get_handOverListForHomeMore_error'
 export const get_handOverListForHomeMore_waiting = 'get_handOverListForHomeMore_waiting'
+
+
+export const add_handOverForHome_success = 'add_handOverForHome_success'
+export const modify_handOverForHome = 'modify_handOverForHome'

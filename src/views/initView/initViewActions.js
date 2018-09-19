@@ -32,9 +32,9 @@ export const validateVersion = (tryCount = 1) => async (dispatch) => {
     try {
         dispatch({ type: reduxActionTypes.initView.init_app_waiting, payload: {} })
         const url = `${base_host}/app${ObjectToUrl({ app: 6, type: 1 })}`
-        console.log('url', url)
+        // console.log('url', url)
         const res = await httpRequest.get(url)
-        console.log('res', res)
+        // console.log('res', res)
         if (res.success) {
             const versionInfo = {
                 currentVersion: android_app.version,
@@ -43,10 +43,10 @@ export const validateVersion = (tryCount = 1) => async (dispatch) => {
                 remark: '',
                 force_update: 0
             }
-            console.log('versionInfo', versionInfo)
+            // console.log('versionInfo', versionInfo)
 
             const currentVersionArr = android_app.version.split('.')
-            console.log('currentVersionArr', currentVersionArr)
+            // console.log('currentVersionArr', currentVersionArr)
 
             let versionList = res.result
                 .filter(item => {
@@ -61,7 +61,7 @@ export const validateVersion = (tryCount = 1) => async (dispatch) => {
                         return false
                     }
                 })
-            console.log('versionList', versionList)
+            // console.log('versionList', versionList)
 
             //force_update:0(版本为最新版), 1(版本过低，强制更新), 2(版本过低，但不需要强制更新)
             if (versionList.length > 0) {
@@ -86,28 +86,28 @@ export const validateVersion = (tryCount = 1) => async (dispatch) => {
                 versionInfo.newestVersion = versionList[0].version
                 versionInfo.url = versionList[0].url
                 versionInfo.remark = versionList[0].remark
-                console.log('versionInfo', versionInfo)
+                // console.log('versionInfo', versionInfo)
 
             } else {
                 versionInfo.force_update = 0
                 versionInfo.newestVersion = versionInfo.currentVersion
             }
             if (versionInfo.force_update != 1) {
-                console.log('valdate_version_success', versionInfo)
+                // console.log('valdate_version_success', versionInfo)
                 dispatch({ type: reduxActionTypes.initView.valdate_version_success, payload: { versionInfo, step: currentStep } })
                 dispatch(loadLocalStorage())
             } else {
-                console.log('valdate_version_low', versionInfo)
+                // console.log('valdate_version_low', versionInfo)
 
                 dispatch({ type: reduxActionTypes.initView.valdate_version_low, payload: { versionInfo, step: currentStep } })
             }
         } else {
-            console.log('valdate_version_failed', versionInfo)
+            // console.log('valdate_version_failed', versionInfo)
 
             dispatch({ type: reduxActionTypes.initView.valdate_version_failed, payload: { failedMsg: res.msg } })
         }
     } catch (err) {
-        console.log('err', err)
+        // console.log('err', err)
         ToastAndroid.show(`初始化错误:${err}`, 10)
         if (err.message == 'Network request failed') {
             //尝试20次
@@ -132,10 +132,10 @@ export const loadLocalStorage = () => async (dispatch) => {
         //localStorage.remove({ key: localStorageKey.USER })
 
         const localStorageRes = await localStorage.load({ key: localStorageKey.USER })
-        console.log('localStorageRes', localStorageRes)
+        // console.log('localStorageRes', localStorageRes)
 
         if (localStorageRes.token && localStorageRes.uid) {
-            console.log('localStorageRes', localStorageRes)
+            // console.log('localStorageRes', localStorageRes)
             dispatch({ type: reduxActionTypes.initView.load_localStorage_success, payload: { userlocalStorage: localStorageRes, step: currentStep } })
             dispatch(validateToken())
         }
@@ -150,7 +150,7 @@ export const loadLocalStorage = () => async (dispatch) => {
         }
     } catch (err) {
         
-        console.log('err', err)
+        // console.log('err', err)
         if (err.name == 'NotFoundError') {
             dispatch({ type: reduxActionTypes.initView.load_localStorage_error, payload: { errorMsg: err } })
         } else {
@@ -168,14 +168,19 @@ export const validateToken = (tryCount = 1) => async (dispatch, getState) => {
     const currentStep = 3
     try {
         const { initViewReducer: { data: { userlocalStorage: { uid, token } } } } = getState()
+        // console.log()
         const url = `${base_host}/user/${uid}/token/${token}`
-        console.log('url', url)
+        // console.log('url', url)
         const res = await httpRequest.get(url)
-        console.log('res', res)
+        // console.log('res', res)
 
         if (res.success) {
-            const getUserInfoUrl = `${base_host}/user?${ObjectToUrl({ userId: uid })}`
+            const getUserInfoUrl = `${base_host}/user${ObjectToUrl({ userId: uid })}`
+            // console.log('getUserInfoUrl', getUserInfoUrl)
+
             const getUserInfoRes = await httpRequest.get(getUserInfoUrl)
+            // console.log('getUserInfoRes', getUserInfoRes)
+
             if (getUserInfoRes.success) {
                 const { uid, mobile, real_name, type, gender, avatar_image, status, drive_id } = getUserInfoRes.result[0]
                 const user = {
@@ -202,7 +207,7 @@ export const validateToken = (tryCount = 1) => async (dispatch, getState) => {
         }
     } catch (err) {
         ToastAndroid.show(`初始化错误:${err}`, 10)
-        console.log('err', err)
+        // console.log('err', err)
         if (err.message == 'Network request failed') {
             //尝试20次
             if (tryCount < 20) {

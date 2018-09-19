@@ -116,6 +116,40 @@ export default handleActions({
                 errorMsg
             }
         }
+    },
+
+
+
+    [reduxActionTypes.handOverList.add_handOver_success]: (state, action) => {
+        const { payload: { handOver } } = action
+        return {
+            ...state,
+            data: {
+                ...state.data,
+                handoverList: [handOver, ...state.data.handoverList]
+            }
+        }
+    },
+
+
+    [reduxActionTypes.handOverList.modify_handOver]: (state, action) => {
+        const { payload: { handOver } } = action
+        return {
+            ...state,
+            data: {
+                ...state.data,
+                handoverList: state.data.handoverList.map(item => {
+                    if (item.id == handOver.settleHandoverId) {
+                        return {
+                            ...item,
+                            ...handOver
+                        }
+                    } else {
+                        return item
+                    }
+                })
+            }
+        }
     }
 
 }, initialState)

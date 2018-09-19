@@ -35,4 +35,14 @@ export const receiveOptionList = (parent, previousViewName) => {
     if (parent === 'notHandoverBlock') return (param = {}) => Actions.receiveOptionListAtNotHandoverBlock({ ...param, previousViewName })
     if (parent === 'homeBlock') return (param = {}) => Actions.receiveOptionListAtHomeBlock({ ...param, previousViewName })
     if (parent === 'handOverBlock') return (param = {}) => Actions.receiveOptionListAtHandOverBlock({ ...param, previousViewName })
-} 
+}
+
+export const carOptionList = (parent, previousViewName) => {
+    if (parent === 'homeBlock') return (param = {}) => Actions.carOptionListAtHomeBlock({ ...param, previousViewName })
+    if (parent === 'handOverBlock') return (param = {}) => Actions.carOptionListAtHandOverBlock({ ...param, previousViewName })
+}
+
+export const carOptionInfo = (parent, previousViewName) => {
+    if (parent === 'homeBlock') return (param = {}) => Actions.carOptionInfoAtHomeBlock({ ...param, previousViewName })
+    if (parent === 'handOverBlock') return (param = {}) => Actions.carOptionInfoAtHandOverBlock({ ...param, previousViewName })
+}

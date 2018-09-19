@@ -37,14 +37,14 @@ class Setting extends Component {
     }
 
     render() {
-        const { version } = this.props.InitializationReducer.data
-        const { loginReducer: { data: { user: { avatar_image, real_name, mobile } } } } = this.props
+        const { version } = this.props.initViewReducer.data
+        const { loginReducer: { data: { user: { avatar_image, real_name, mobile } } }, sceneKey } = this.props
         return (
             <Container>
                 <Content style={globalStyles.container}>
                     <List style={styles.list}>
                         <Separator style={globalStyles.separator} />
-                        <ListItem last onPress={Actions.personalCenter}>
+                        <ListItem last onPress={() => Actions.personalCenter({ previousViewName: sceneKey })}>
                             <View style={styles.avatarContainer}>
                                 <Thumbnail source={avatar_image ? { uri: `${file_host}/image/${avatar_image}` } : { uri: `personalicon` }} />
                                 <View style={styles.userContainer}>
@@ -54,7 +54,7 @@ class Setting extends Component {
                             </View>
                         </ListItem>
                         <Separator style={globalStyles.separator} />
-                        <ListItem icon onPress={Actions.updatePassword}>
+                        <ListItem icon onPress={() => Actions.updatePassword({ previousViewName: sceneKey })}>
                             <Left>
                                 <Icon name="ios-unlock-outline" style={globalStyles.styleColor} />
                             </Left>

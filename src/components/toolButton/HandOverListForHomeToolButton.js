@@ -29,7 +29,7 @@ class HandOverListForHomeToolButton extends Component {
                 </Button>
                 <MenuForHeader
                     menuList={[
-                        { icon: () => <Icon name='ios-add' style={{ fontSize: 20, color: '#777' }} />, title: '增加交接单', route: routerDirection.createHandover(parent, sceneKey) },
+                        { icon: () => <Icon name='ios-add' style={{ fontSize: 20, color: '#777' }} />, title: '增加交接单', route: () => routerDirection.createHandover(parent, sceneKey)({ isHome: true }) },
                         { icon: () => <Icon name='ios-search' style={{ fontSize: 20, color: '#777' }} />, title: '搜索', route: routerDirection.handOverSearch(parent, sceneKey) }
                     ]}
                     menuModalIsVisible={this.state.menuModalIsVisible}

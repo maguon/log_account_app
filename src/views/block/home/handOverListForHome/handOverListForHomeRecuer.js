@@ -116,6 +116,42 @@ export default handleActions({
                 errorMsg
             }
         }
+    },
+
+
+
+    [reduxActionTypes.handOverListForHome.add_handOverForHome_success]: (state, action) => {
+        const { payload: { handOver } } = action
+        return {
+            ...state,
+            data: {
+                ...state.data,
+                handoverList: [handOver, ...state.data.handoverList]
+            }
+        }
+    },
+
+
+    [reduxActionTypes.handOverListForHome.modify_handOverForHome]: (state, action) => {
+        const { payload: { handOver } } = action
+        // console.log('handOver', handOver)
+        return {
+            ...state,
+            data: {
+                ...state.data,
+                handoverList: state.data.handoverList.map(item => {
+                    if (item.id == handOver.settleHandoverId) {
+                        // console.log('item',item)
+                        return {
+                            ...item,
+                            ...handOver
+                        }
+                    } else {
+                        return item
+                    }
+                })
+            }
+        }
     }
 
 }, initialState)

@@ -1,5 +1,5 @@
 import React from 'react'
-import { Text, View, FlatList, StyleSheet, ActivityIndicator, TouchableOpacity } from 'react-native'
+import { Text, View, FlatList, StyleSheet, ActivityIndicator, TouchableOpacity, InteractionManager } from 'react-native'
 import { Container, Card, CardItem, Body, Icon, Spinner } from 'native-base'
 import globalStyles, { styleColor } from '../../../../style/GlobalStyles'
 import * as routerDirection from '../../../../utils/RouterDirection'
@@ -8,9 +8,13 @@ import { connect } from 'react-redux'
 import moment from 'moment'
 
 const renderItem = props => {
-    const { parent, sceneKey, item: { received_date, number = '', r_short_name = '', short_name = '' } } = props
+    const { parent, sceneKey, getHandOverCarList, getHandOverCarListWaiting,item: { received_date, number = '', r_short_name = '', short_name = '', id } } = props
     return (
-        <TouchableOpacity onPress={() => routerDirection.handOverInfo(parent, sceneKey)()}>
+        <TouchableOpacity onPress={() => {
+            getHandOverCarListWaiting()
+            routerDirection.handOverInfo(parent, sceneKey)({ isHome: true, settleHandoverId: id })
+            InteractionManager.runAfterInteractions(() => getHandOverCarList({ settleHandoverId: id }))
+        }}>
             <Card>
                 <CardItem header bordered style={{ backgroundColor: '#eee', justifyContent: 'space-between' }}>
                     <View style={{ flexDirection: 'row', alignItems: 'center' }}>
@@ -54,7 +58,7 @@ const renderEmpty = () => {
 
 const HandOverListForHome = props => {
     const { sceneKey, parent, handOverListForHomeRecuer: { data: { handoverList, isComplete }, getHandoverListForHome },
-        handOverListForHomeRecuer, getHandOverListForHomeMore } = props
+        handOverListForHomeRecuer, getHandOverListForHomeMore, getHandOverCarList, getHandOverCarListWaiting } = props
     if (getHandoverListForHome.isResultStatus == 1) {
         return (
             <Container>
@@ -75,7 +79,7 @@ const HandOverListForHome = props => {
                             getHandOverListForHomeMore()
                         }
                     }}
-                    renderItem={({ item }) => renderItem({ item, sceneKey, parent })}
+                    renderItem={({ item }) => renderItem({ item, sceneKey, parent, getHandOverCarList, getHandOverCarListWaiting })}
                     ListFooterComponent={handOverListForHomeRecuer.getHandoverListForHomeMore.isResultStatus == 1 ? ListFooterComponent : <View />}
                     ListEmptyComponent={renderEmpty} />
             </Container>
@@ -95,6 +99,12 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = (dispatch) => ({
     getHandOverListForHomeMore: () => {
         dispatch(reduxActions.handOverListForHome.getHandOverListForHomeMore())
+    },
+    getHandOverCarList: param => {
+        dispatch(reduxActions.handOverCarList.getHandOverCarList(param))
+    },
+    getHandOverCarListWaiting: () => {
+        dispatch(reduxActions.handOverCarList.getHandOverCarListWaiting())
     }
 })
 

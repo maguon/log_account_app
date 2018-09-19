@@ -6,8 +6,8 @@ import {
 import { connect } from 'react-redux'
 import ImagePicker from 'react-native-image-crop-picker'
 import { Container, Left, Body, Right, List, ListItem, Thumbnail, Separator } from 'native-base'
-import * as actions from '../../../actions/index'
-import { file_host } from '../../../config/Host'
+import * as reduxActions from '../../reduxActions'
+import { file_host } from '../../configs/Host'
 
 class PersonalCenter extends Component {
     constructor(props) {
@@ -86,7 +86,7 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => ({
     updatePersonalImage: (param) => {
-        dispatch(actions.personalCenter.updatePersonalImage(param))
+        dispatch(reduxActions.personalCenter.updatePersonalImage(param))
     }
 })
 

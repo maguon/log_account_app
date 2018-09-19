@@ -8,9 +8,13 @@ import { connect } from 'react-redux'
 import moment from 'moment'
 
 const renderItem = props => {
-    const { parent, sceneKey, item: { received_date, number = '', r_short_name = '', short_name = '' } } = props
+    const { parent, sceneKey, getHandOverCarListWaiting, getHandOverCarList, item: { received_date, number = '', r_short_name = '', short_name = '', id } } = props
     return (
-        <TouchableOpacity onPress={() => routerDirection.handOverInfo(parent, sceneKey)()}>
+        <TouchableOpacity onPress={() => {
+            getHandOverCarListWaiting()
+            routerDirection.handOverInfo(parent, sceneKey)({ isHome: false, settleHandoverId: id })
+            InteractionManager.runAfterInteractions(() => getHandOverCarList({ settleHandoverId: id }))
+        }}>
             <Card>
                 <CardItem header bordered style={{ backgroundColor: '#eee', justifyContent: 'space-between' }}>
                     <View style={{ flexDirection: 'row', alignItems: 'center' }}>
@@ -64,7 +68,7 @@ class HandOverList extends Component {
 
     render() {
         const { sceneKey, parent, handOverListRecuer: { data: { handoverList, isComplete }, getHandoverList },
-            handOverListRecuer, getHandOverListMore } = this.props
+            handOverListRecuer, getHandOverListMore, getHandOverCarListWaiting, getHandOverCarList } = this.props
         if (getHandoverList.isResultStatus == 1) {
             return (
                 <Container>
@@ -85,7 +89,7 @@ class HandOverList extends Component {
                                 getHandOverListMore()
                             }
                         }}
-                        renderItem={({ item }) => renderItem({ item, sceneKey, parent })}
+                        renderItem={({ item }) => renderItem({ item, sceneKey, parent, getHandOverCarListWaiting, getHandOverCarList })}
                         ListFooterComponent={handOverListRecuer.getHandoverListMore.isResultStatus == 1 ? ListFooterComponent : <View />}
                         ListEmptyComponent={renderEmpty} />
                 </Container>
@@ -112,7 +116,15 @@ const mapDispatchToProps = (dispatch) => ({
     },
     getHandOverListWaiting: () => {
         dispatch(reduxActions.handOverList.getHandOverListWaiting())
+    },
+    getHandOverCarList: param => {
+        console.log('getHandOverCarList')
 
+        dispatch(reduxActions.handOverCarList.getHandOverCarList(param))
+    },
+    getHandOverCarListWaiting: () => {
+        console.log('getHandOverCarListWaiting')
+        dispatch(reduxActions.handOverCarList.getHandOverCarListWaiting())
     }
 })
 

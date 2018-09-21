@@ -27,7 +27,7 @@ const TextBox = props => {
 }
 
 const Login = props => {
-    const { loginReducer: { loginFlow: { isResultStatus } },  handleSubmit } = props
+    const { loginReducer: { loginFlow: { isResultStatus } }, handleSubmit } = props
     return (
         <Container style={styles.container}>
             <StatusBar hidden={true} />

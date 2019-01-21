@@ -1,11 +1,12 @@
 import * as httpRequest from '../../../utils/HttpRequest'
-import { base_host } from '../../../configs/Host'
 import * as reduxActionTypes from '../../../reduxActionTypes'
 import { objectExceptNull, ObjectToUrl } from '../../../utils'
 import { ToastAndroid } from 'react-native'
 
 export const modifyHandover = (param) => async (dispatch, getState) => {
     try {
+        const { communicationSettingReducer: { data: { base_host} } } = getState()
+
         dispatch({ type: reduxActionTypes.handOverEditor.modify_handover_waiting, payload: {} })
         const { loginReducer: { data: { user: { uid } } } } = getState()
         const { settleHandoverId } = param

@@ -1,5 +1,4 @@
 import * as httpRequest from '../../../utils/HttpRequest'
-import { base_host, file_host } from '../../../configs/Host'
 import * as reduxActionTypes from '../../../reduxActionTypes'
 import { objectExceptNull } from '../../../utils'
 import { ToastAndroid } from 'react-native'
@@ -9,6 +8,8 @@ export const uploadHandoveImage = param => async (dispatch, getState) => {
     try {
         const { cameraReses, settleHandoverId } = param
         // console.log('param', param)
+        const { communicationSettingReducer: { data: { base_host, file_host } } } = getState()
+
         const cameraSuccessReses = cameraReses.filter(item => item.success)
         if (cameraSuccessReses.length > 0) {
             const { loginReducer: { data: { user: { uid } } } } = getState()

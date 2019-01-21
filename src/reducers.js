@@ -18,6 +18,7 @@ import driverOptionListReducer from  './views/option/driverOptionList/driverOpti
 import entrustOptionListReducer from  './views/option/entrustOptionList/entrustOptionListReducer'
 import receiveOptionListReducer from  './views/option/receiveOptionList/receiveOptionListReducer'
 import carOptionListReducer from  './views/option/carOptionList/carOptionListReducer'
+import communicationSettingReducer from  './views/communicationSetting/communicationSettingReducer'
 
 export default combineReducers({
     form: formReducer,
@@ -35,5 +36,6 @@ export default combineReducers({
     driverOptionListReducer,
     entrustOptionListReducer,
     receiveOptionListReducer,
-    carOptionListReducer
+    carOptionListReducer,
+    communicationSettingReducer
 })

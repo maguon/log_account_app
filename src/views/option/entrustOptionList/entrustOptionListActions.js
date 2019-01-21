@@ -1,9 +1,9 @@
 import * as httpRequest from '../../../utils/HttpRequest'
-import { base_host } from '../../../configs/Host'
 import * as reduxActionTypes from '../../../reduxActionTypes'
 
-export const getEntrustOptionList = () => async (dispatch) => {
+export const getEntrustOptionList = () => async (dispatch, getState) => {
     try {
+        const { communicationSettingReducer: { data: { base_host } } } = getState()
         const url = `${base_host}/entrust`
         const res = await httpRequest.get(url)
         if (res.success) {

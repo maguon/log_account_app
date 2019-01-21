@@ -1,13 +1,14 @@
 import * as httpRequest from '../../../utils/HttpRequest'
-import { base_host } from '../../../configs/Host'
 import * as reduxActionTypes from '../../../reduxActionTypes'
 import { ObjectToUrl, sleep } from '../../../utils'
 import { ToastAndroid } from 'react-native'
 
 const pageSize = 20
 
-export const getNotHandoverCarList = param => async (dispatch) => {
+export const getNotHandoverCarList = param => async (dispatch,getState) => {
     try {
+        const { communicationSettingReducer: { data: { base_host } } } = getState()
+
         let searchParam = {}
         if (param) {
             searchParam = {
@@ -56,6 +57,8 @@ export const getNotHandoverCarListWaiting = () => (dispatch) => {
 export const getNotHandoverCarListMore = () => async (dispatch, getState) => {
     const state = getState()
     const { notHandoverListRecuer: { data: { notHandoverCarList, isComplete, search } }, notHandoverListRecuer } = state
+    const { communicationSettingReducer: { data: { base_host } } } = getState()
+
     let searchParam = {}
     if (search) {
         searchParam = {

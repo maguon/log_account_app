@@ -2,7 +2,7 @@ import * as reduxActionTypes from '../../reduxActionTypes'
 import localStorageKey from '../../utils/LocalStorageKey'
 import localStorage from '../../utils/LocalStorage'
 import httpRequest from '../../utils/HttpRequest'
-import { base_host } from '../../configs/Host'
+// import { base_host } from '../../configs/Host'
 import requestHeaders from '../../utils/RequestHeaders'
 import * as android_app from '../../configs/android_app.json'
 import { sleep, ObjectToUrl } from '../../utils'
@@ -26,12 +26,38 @@ import { ToastAndroid } from 'react-native'
  * 第三步：换network request所需要的token
  */
 
+
+export const getCommunicationSetting = () => async (dispatch) => {
+    try {
+        const localStorageRes = await localStorage.load({ key: localStorageKey.SERVERADDRESS })
+        console.log('localStorageRes', localStorageRes)
+        const { base_host, file_host, record_host, host } = localStorageRes
+        if (base_host && file_host && record_host && host) {
+            await dispatch({
+                type: reduxActionTypes.communicationSetting.get_communicationSetting_success, payload: {
+                    base_host, file_host, record_host, host
+                }
+            })
+            dispatch(validateVersion())
+        } else {
+            // console.log('Actions.mainRoot')
+            Actions.mainRoot()
+        }
+
+    } catch (err) {
+        Actions.mainRoot()
+        // console.log('err', err)
+    }
+}
+
+
 //第一步：获取最新version信息
-export const validateVersion = (tryCount = 1) => async (dispatch) => {
+export const validateVersion = () => async (dispatch,getState) => {
     const currentStep = 1
     try {
         dispatch({ type: reduxActionTypes.initView.init_app_waiting, payload: {} })
-        const url = `${base_host}/app${ObjectToUrl({ app: 6, type: 1 })}`
+        const { communicationSettingReducer: { data: { base_host } } } = getState()
+        const url = `${base_host}/app${ObjectToUrl({ app: android_app.type, type: android_app.android })}`
         // console.log('url', url)
         const res = await httpRequest.get(url)
         // console.log('res', res)
@@ -109,17 +135,18 @@ export const validateVersion = (tryCount = 1) => async (dispatch) => {
     } catch (err) {
         // console.log('err', err)
         ToastAndroid.show(`初始化错误:${err}`, 10)
-        if (err.message == 'Network request failed') {
-            //尝试20次
-            if (tryCount < 20) {
-                await sleep(1000)
-                dispatch(validateVersion(tryCount + 1))
-            } else {
-                dispatch({ type: reduxActionTypes.initView.valdate_version_error, payload: { errorMsg: err } })
-            }
-        } else {
-            dispatch({ type: reduxActionTypes.initView.valdate_version_error, payload: { errorMsg: err } })
-        }
+        // if (err.message == 'Network request failed') {
+        //     //尝试20次
+        //     if (tryCount < 20) {
+        //         await sleep(1000)
+        //         dispatch(validateVersion(tryCount + 1))
+        //     } else {
+        dispatch({ type: reduxActionTypes.initView.valdate_version_error, payload: { errorMsg: err } })
+        Actions.mainRoot()
+        //     }
+        // } else {
+        //     dispatch({ type: reduxActionTypes.initView.valdate_version_error, payload: { errorMsg: err } })
+        // }
     }
 }
 
@@ -149,7 +176,7 @@ export const loadLocalStorage = () => async (dispatch) => {
             Actions.mainRoot()
         }
     } catch (err) {
-        
+
         // console.log('err', err)
         if (err.name == 'NotFoundError') {
             dispatch({ type: reduxActionTypes.initView.load_localStorage_error, payload: { errorMsg: err } })
@@ -169,6 +196,7 @@ export const validateToken = (tryCount = 1) => async (dispatch, getState) => {
     try {
         const { initViewReducer: { data: { userlocalStorage: { uid, token } } } } = getState()
         // console.log()
+        const { communicationSettingReducer: { data: { base_host } } } = getState()
         const url = `${base_host}/user/${uid}/token/${token}`
         // console.log('url', url)
         const res = await httpRequest.get(url)

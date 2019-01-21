@@ -1,10 +1,11 @@
 import * as httpRequest from '../../../../utils/HttpRequest'
-import { base_host } from '../../../../configs/Host'
 import * as reduxActionTypes from '../../../../reduxActionTypes'
 import moment from 'moment'
 
-export const getHandoverStatistics = () => async (dispatch) => {
+export const getHandoverStatistics = () => async (dispatch,getState) => {
     try {
+        const { communicationSettingReducer: { data: { base_host } } } = getState()
+
         const url = `${base_host}/settleHandoverMonthCount?yearMonth=${moment().format('YYYYMM')}`
         const res = await httpRequest.get(url)
         if (res.success) {

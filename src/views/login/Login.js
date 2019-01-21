@@ -6,6 +6,7 @@ import { Actions } from 'react-native-router-flux'
 import globalStyles, { styleColor } from '../../style/GlobalStyles'
 import { Field, reduxForm } from 'redux-form'
 import * as reduxActions from '../../reduxActions'
+import * as android_app from '../../configs/android_app.json'
 // import Spinkit from 'react-native-spinkit'
 
 const window = Dimensions.get('window')
@@ -34,6 +35,7 @@ const Login = props => {
             <ImageBackground
                 source={{ uri: 'login_back' }}
                 style={styles.backgroundImage} >
+                <Text style={[globalStyles.smallText, { color: 'rgba(255,255,255,0.1)', position: 'absolute', bottom: 5, right: 5 }]}>{android_app.version}</Text>
                 <View style={{ paddingTop: 80 }}>
                     <View style={styles.logoContainer}>
                         <Image
@@ -49,11 +51,17 @@ const Login = props => {
                 {/* {isResultStatus == 1 && <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
                     <Spinkit type={'Circle'} color="#fff" size={70} isVisible={isResultStatus == 1} />
                 </View>} */}
-                {isResultStatus != 1 && <View style={styles.formContainer}><Field
-                    name='mobile'
-                    iconName='md-person'
-                    placeholderText='请输入用户名'
-                    component={TextBox} />
+                {isResultStatus != 1 && <View style={styles.formContainer}>
+                    <Field
+                        name='server'
+                        iconName='md-globe'
+                        placeholderText='请输入服务器域名'
+                        component={TextBox} />
+                    <Field
+                        name='mobile'
+                        iconName='md-person'
+                        placeholderText='请输入用户名'
+                        component={TextBox} />
                     <Field
                         name='password'
                         secureTextEntry={true}
@@ -141,16 +149,20 @@ const styles = StyleSheet.create({
 const mapStateToProps = (state) => {
     return {
         loginReducer: state.loginReducer,
-        initialValues: state.loginReducer.data.user
+        initialValues: {
+            mobile: state.loginReducer.data.user.mobile,
+            server: state.communicationSettingReducer.data.host
+        }
     }
 }
 
 export default connect(mapStateToProps)(
     reduxForm({
         form: 'loginForm',
+        destroyOnUnmount: false,
         enableReinitialize: true,
         onSubmit: (values, dispatch) => {
-            dispatch(reduxActions.login.login(values))
+            dispatch(reduxActions.login.validateVersion(values))
         }
     })(Login))
 

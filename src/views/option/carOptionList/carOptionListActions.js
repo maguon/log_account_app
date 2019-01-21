@@ -1,11 +1,12 @@
 import * as httpRequest from '../../../utils/HttpRequest'
-import { base_host } from '../../../configs/Host'
 import * as reduxActionTypes from '../../../reduxActionTypes'
 import { ObjectToUrl } from '../../../utils'
 import { getFormValues } from 'redux-form'
 
 export const getCarOptionList = param => async (dispatch, getState) => {
     try {
+        const { communicationSettingReducer: { data: { base_host} } } = getState()
+
         const url = `${base_host}/notSettleHandover${ObjectToUrl({
             carLoadStatus: 2,
             transferFlag: 0,
@@ -15,7 +16,7 @@ export const getCarOptionList = param => async (dispatch, getState) => {
             start: 0,
             size: 10
         })}`
-        console.log('url', url)
+        // console.log('url', url)
         const res = await httpRequest.get(url)
         // console.log('res', res)
         const state = getState()

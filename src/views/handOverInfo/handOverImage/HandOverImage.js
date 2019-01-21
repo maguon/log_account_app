@@ -4,7 +4,6 @@ import { Container, Content, Spinner } from 'native-base'
 import CameraButton from '../../../components/share/CameraButton'
 import { connect } from 'react-redux'
 import * as reduxActions from '../../../reduxActions'
-import { file_host } from '../../../configs/Host'
 import globalStyles, { styleColor } from '../../../style/GlobalStyles'
 
 
@@ -18,6 +17,7 @@ class HandOverImage extends Component {
 
     render() {
         const { handOver: { handove_image }, uploadHandoveImage, uploadHandoveImageWaiting, handOverImageReducer } = this.props
+        const { communicationSettingReducer: { data: { file_host } } } = this.props
         return (
             <Container>
                 <Content>
@@ -82,9 +82,14 @@ const styles = StyleSheet.create({
         paddingLeft: 10
     }
 })
+
+
+//const { communicationSettingReducer: { data: { base_host, file_host,record_host } } } = getState() 
+
 const mapStateToProps = (state, ownProps) => {
     return {
-        handOverImageReducer: state.handOverImageReducer
+        handOverImageReducer: state.handOverImageReducer,
+        communicationSettingReducer: state.communicationSettingReducer
     }
 }
 

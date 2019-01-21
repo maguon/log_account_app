@@ -1,7 +1,6 @@
 import React, { Component } from 'react'
-import { Text, Linking, StyleSheet, View } from 'react-native'
+import { Text, Linking, StyleSheet, View,TouchableOpacity } from 'react-native'
 import { connect } from 'react-redux'
-import { file_host } from '../../configs/Host'
 import { Actions } from 'react-native-router-flux'
 import { Button, Container, Content, Icon, Left, Body, Right, List, ListItem, Thumbnail, Separator } from 'native-base'
 import ConfirmModal from '../../components/share/ConfirmModal'
@@ -39,6 +38,8 @@ class Setting extends Component {
     render() {
         const { version } = this.props.initViewReducer.data
         const { loginReducer: { data: { user: { avatar_image, real_name, mobile } } }, sceneKey } = this.props
+        const { communicationSettingReducer: { data: { file_host } } } = this.props
+
         return (
             <Container>
                 <Content style={globalStyles.container}>
@@ -126,10 +127,13 @@ const styles = StyleSheet.create({
     }
 })
 
+
+
 const mapStateToProps = (state) => {
     return {
         loginReducer: state.loginReducer,
-        initViewReducer: state.initViewReducer
+        initViewReducer: state.initViewReducer,
+        communicationSettingReducer: state.communicationSettingReducer
     }
 }
 

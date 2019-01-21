@@ -99,7 +99,7 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => ({
     validateVersion: () => {
-        dispatch(reduxActions.initView.validateVersion())
+        dispatch(reduxActions.initView.getCommunicationSetting())
     }
 
 })

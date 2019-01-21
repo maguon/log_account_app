@@ -119,7 +119,6 @@ const mapDispatchToProps = (dispatch) => ({
     },
     getHandOverCarList: param => {
         console.log('getHandOverCarList')
-
         dispatch(reduxActions.handOverCarList.getHandOverCarList(param))
     },
     getHandOverCarListWaiting: () => {

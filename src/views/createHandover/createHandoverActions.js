@@ -1,5 +1,5 @@
 import * as httpRequest from '../../utils/HttpRequest'
-import { base_host } from '../../configs/Host'
+
 import * as reduxActionTypes from '../../reduxActionTypes'
 import { objectExceptNull, ObjectToUrl } from '../../utils'
 import { ToastAndroid } from 'react-native'
@@ -7,6 +7,8 @@ import { ToastAndroid } from 'react-native'
 export const createHandover = param => async (dispatch, getState) => {
     try {
         // console.log('param', param)
+        const { communicationSettingReducer: { data: { base_host } } } = getState()
+
         const { loginReducer: { data: { user: { uid } } } } = getState()
         dispatch({ type: reduxActionTypes.createHandover.create_handover_waiting, payload: {} })
         const url = `${base_host}/user/${uid}/settleHandover`
@@ -32,8 +34,10 @@ export const createHandover = param => async (dispatch, getState) => {
 }
 
 
-export const getHandover = (param) => async (dispatch) => {
+export const getHandover = (param) => async (dispatch,getState) => {
     try {
+        const { communicationSettingReducer: { data: { base_host } } } = getState()
+
         const { settleHandoverId } = param
         const url = `${base_host}/settleHandover${ObjectToUrl({
             settleHandoverId

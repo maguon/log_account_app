@@ -1,13 +1,13 @@
 import * as httpRequest from '../../../utils/HttpRequest'
-import { base_host } from '../../../configs/Host'
 import * as reduxActionTypes from '../../../reduxActionTypes'
 import { ObjectToUrl, sleep } from '../../../utils'
 import { ToastAndroid } from 'react-native'
 
 const pageSize = 20
 
-export const getHandOverList = param => async (dispatch) => {
+export const getHandOverList = param => async (dispatch,getState) => {
     try {
+        const { communicationSettingReducer: { data: { base_host } } } = getState()
         let searchParam = {}
         if (param) {
             searchParam = {
@@ -22,9 +22,9 @@ export const getHandOverList = param => async (dispatch) => {
             size: pageSize,
             ...searchParam
         })}`
-        console.log('url', url)
+        // console.log('url', url)
         const res = await httpRequest.get(url)
-        console.log('res', res)
+        // console.log('res', res)
         if (res.success) {
             dispatch({
                 type: reduxActionTypes.handOverList.get_handOverList_success, payload: {
@@ -49,6 +49,8 @@ export const getHandOverListWaiting = () => (dispatch) => {
 
 export const getHandOverListMore = () => async (dispatch, getState) => {
     const state = getState()
+    const { communicationSettingReducer: { data: { base_host } } } = getState()
+
     const { handOverListRecuer: { data: { handoverList, isComplete, search } }, handOverListRecuer } = state
     let searchParam = {}
     if (search) {

@@ -17,6 +17,9 @@ import * as entrustOptionList from './views/option/entrustOptionList/entrustOpti
 import * as receiveOptionList from './views/option/receiveOptionList/receiveOptionListActionTypes'
 import * as cityOptionList from './views/option/cityOptionList/cityOptionListActionTypes'
 import * as carOptionList from './views/option/carOptionList/carOptionListActionTypes'
+import * as communicationSetting from './views/communicationSetting/communicationSettingActionTypes'
+
+
 
 export {
     notHandoverList,
@@ -35,5 +38,6 @@ export {
     receiveOptionList,
     cityOptionList,
     carOptionList,
-    homeStatistics
+    homeStatistics,
+    communicationSetting
 }

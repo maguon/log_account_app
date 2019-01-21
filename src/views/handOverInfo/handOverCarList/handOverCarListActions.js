@@ -1,11 +1,11 @@
 import * as httpRequest from '../../../utils/HttpRequest'
-import { base_host } from '../../../configs/Host'
 import * as reduxActionTypes from '../../../reduxActionTypes'
 import { objectExceptNull, ObjectToUrl } from '../../../utils'
 import { ToastAndroid } from 'react-native'
 
-export const getHandOverCarList = param => async (dispatch) => {
+export const getHandOverCarList = param => async (dispatch,getState) => {
     try {
+        const { communicationSettingReducer: { data: { base_host } } } = getState()
         const url = `${base_host}/settleHandoverCarRel?transferFlag=0&&settleHandoverId=${param.settleHandoverId}`
         // console.log('url', url)
         const res = await httpRequest.get(url)
@@ -28,6 +28,8 @@ export const getHandOverCarListWaiting = () => (dispatch) => {
 export const delCar = param => async (dispatch, getState) => {
     try {
         // console.log('param', param)
+        const { communicationSettingReducer: { data: { base_host} } } = getState()
+
         const { loginReducer: { data: { user: { uid } } } } = getState()
         dispatch({ type: reduxActionTypes.handOverCarList.del_carForHandOverCarList_waiting, payload: {} })
         const url = `${base_host}/user/${uid}/settleHandover/${param.settleHandoverId}/car/${param.carId}`
@@ -52,6 +54,7 @@ export const delCar = param => async (dispatch, getState) => {
 export const addCar = param => async (dispatch, getState) => {
     try {
         // console.log('param', param)
+        const { communicationSettingReducer: { data: { base_host } } } = getState()
         const { loginReducer: { data: { user: { uid } } } } = getState()
         dispatch({ type: reduxActionTypes.handOverCarList.add_carForHandOverCarList_waiting, payload: {} })
         const url = `${base_host}/user/${uid}/settleHandoverCarRel`
